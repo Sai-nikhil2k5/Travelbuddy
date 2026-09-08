@@ -2,127 +2,375 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>TripMate AI</title>
-
+    <title>TravelBuddy — Cozy AI Trip Planner</title>
+    
+    <!-- Google Fonts for Cozy Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Cozy CSS -->
     <link rel="stylesheet" href="/static/style.css">
 </head>
-
 <body>
 
+    <!-- Background Decorative Travel Doodles & Soft Warm Gradients -->
     <div class="page-bg">
-        <div class="gradient-circle circle-1"></div>
-        <div class="gradient-circle circle-2"></div>
-        <div class="gradient-circle circle-3"></div>
+        <div class="cloud cloud-1">☁️</div>
+        <div class="cloud cloud-2">☁️</div>
+        <div class="compass-doodle">🧭</div>
+        <div class="stamp-doodle">✈️</div>
     </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-icon">🎒</div>
+                <div class="brand-text">
+                    <span class="brand-title">TravelBuddy</span>
+                    <span class="brand-tagline">Cozy AI Travel Companions</span>
+                </div>
+            </div>
+
+            <div class="companion-status">
+                <div class="status-avatars">
+                    <img src="/static/assets/hazel.png" alt="Hazel" class="mini-avatar">
+                    <img src="/static/assets/barnaby.png" alt="Barnaby" class="mini-avatar">
+                </div>
+                <div class="status-info">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Hazel & Barnaby are Ready!</span>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <main class="app-container">
 
-        <section class="hero-section">
-            <div class="badge">
-                ✈️ TripMate AI — A Multi-Agent Travel Planner with LangGraph
+        <!-- Hero Companion Intro Section -->
+        <section class="hero-companion-card">
+            <div class="hero-character-wrapper">
+                <div class="character-frame">
+                    <img src="/static/assets/duo.png" alt="Barnaby & Hazel" class="duo-image">
+                    <div class="passport-stamp-badge">
+                        <span>OFFICIAL</span>
+                        <strong>PASSPORT</strong>
+                        <span>APPROVED</span>
+                    </div>
+                </div>
             </div>
 
-            <h1>
-                Plan Your Perfect Trip with AI
-            </h1>
-
-            <p>
-                Search flights, discover hotels, and generate a complete travel itinerary using a multi-agent LangGraph system.
-            </p>
-        </section>
-
-        <section class="planner-card">
-
-            <div class="card-header">
-                <div>
-                    <h2>Where do you want to go?</h2>
-                    <p>
-                        Example: Plan a complete 7 days Japan trip from Bangladesh under 2 lakhs.
+            <div class="hero-dialog-wrapper">
+                <div class="speech-bubble">
+                    <div class="bubble-header">
+                        <span class="companion-tag 🐰-tag">Hazel 🐰 & Barnaby 🐻</span>
+                        <span class="bubble-greeting">"Welcome traveler! Where shall we explore next?"</span>
+                    </div>
+                    <p id="companionSpeechText">
+                        "I'm <strong>Hazel</strong>! I handle flight routes, daily itineraries, and detail checks. 
+                        And I'm <strong>Barnaby</strong>! I find the coziest stays, local treats, and budget hacks. 
+                        Tell us your trip dreams below!"
                     </p>
                 </div>
 
-                <div class="status-pill">
-                    <span class="status-dot"></span>
-                    Online
+                <div class="persona-selector">
+                    <span class="selector-label">Choose Guide Persona:</span>
+                    <div class="persona-buttons">
+                        <button type="button" class="persona-btn active" data-persona="duo" onclick="selectPersona('duo')">
+                            🤝 Both (Recommended)
+                        </button>
+                        <button type="button" class="persona-btn" data-persona="hazel" onclick="selectPersona('hazel')">
+                            🐰 Hazel (Detail Planner)
+                        </button>
+                        <button type="button" class="persona-btn" data-persona="barnaby" onclick="selectPersona('barnaby')">
+                            🐻 Barnaby (Budget & Vibe)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Travel Planner Input Notebook Card -->
+        <section class="planner-card">
+            <div class="notebook-binder-header">
+                <div class="binder-rings">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="notebook-title">
+                    <h2><i class="fa-solid fa-book-bookmark"></i> Trip Planning Journal</h2>
+                    <p>Type your journey request or pick a boarding pass quick prompt below!</p>
                 </div>
             </div>
 
-            <div class="input-area">
-                <textarea
-                    id="userInput"
-                    placeholder="Plan a complete 7 days Japan trip including flights, hotels and sightseeing under 2 lakhs..."
-                ></textarea>
+            <!-- Boarding Pass Style Quick Prompts -->
+            <div class="boarding-passes-container">
+                <div class="boarding-pass-title">
+                    <span>🎫 Quick Boarding Passes</span>
+                </div>
+                <div class="boarding-pass-grid">
 
-                <button id="sendBtn" onclick="sendMessage()">
-                    <span id="btnText">Generate Plan</span>
-                    <span id="btnLoader" class="loader hidden"></span>
-                </button>
+                    <div class="boarding-ticket" onclick="setPrompt('Plan a complete 7 days Japan trip from Bangladesh including flights, hotels and sightseeing under 2 lakhs.')">
+                        <div class="ticket-left">
+                            <div class="flight-route">
+                                <span class="airport-code">DAC</span>
+                                <i class="fa-solid fa-plane flight-icon"></i>
+                                <span class="airport-code">HND</span>
+                            </div>
+                            <div class="ticket-details">
+                                <strong>7 Days Japan Adventure</strong>
+                                <span>Flights, Hotels & Sights • Under 2L</span>
+                            </div>
+                        </div>
+                        <div class="ticket-stub">
+                            <span class="stub-badge">TOKYO 🌸</span>
+                            <span class="stub-action">Select <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="boarding-ticket" onclick="setPrompt('Plan a 5 days Dubai trip from Dhaka with flights, hotels and sightseeing.')">
+                        <div class="ticket-left">
+                            <div class="flight-route">
+                                <span class="airport-code">DAC</span>
+                                <i class="fa-solid fa-plane flight-icon"></i>
+                                <span class="airport-code">DXB</span>
+                            </div>
+                            <div class="ticket-details">
+                                <strong>5 Days Dubai Gateway</strong>
+                                <span>Burj Khalifa, Desert & Shopping</span>
+                            </div>
+                        </div>
+                        <div class="ticket-stub">
+                            <span class="stub-badge">DUBAI 🏙️</span>
+                            <span class="stub-action">Select <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="boarding-ticket" onclick="setPrompt('Plan a 7 days Thailand trip from Bangladesh with budget hotels and sightseeing.')">
+                        <div class="ticket-left">
+                            <div class="flight-route">
+                                <span class="airport-code">DAC</span>
+                                <i class="fa-solid fa-plane flight-icon"></i>
+                                <span class="airport-code">BKK</span>
+                            </div>
+                            <div class="ticket-details">
+                                <strong>7 Days Thailand Escape</strong>
+                                <span>Bangkok & Phuket • Budget Friendly</span>
+                            </div>
+                        </div>
+                        <div class="ticket-stub">
+                            <span class="stub-badge">THAILAND 🏝️</span>
+                            <span class="stub-action">Select <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="boarding-ticket" onclick="setPrompt('Give me all country flight info.')">
+                        <div class="ticket-left">
+                            <div class="flight-route">
+                                <span class="airport-code">GLOBAL</span>
+                                <i class="fa-solid fa-earth-americas flight-icon"></i>
+                                <span class="airport-code">RADAR</span>
+                            </div>
+                            <div class="ticket-details">
+                                <strong>Global Flights Explorer</strong>
+                                <span>Search Live Flight Connections</span>
+                            </div>
+                        </div>
+                        <div class="ticket-stub">
+                            <span class="stub-badge">FLIGHTS ✈️</span>
+                            <span class="stub-action">Select <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="quick-prompts">
-                <button onclick="setPrompt('Plan a complete 7 days Japan trip from Bangladesh including flights, hotels and sightseeing under 2 lakhs.')">
-                    Japan Trip
-                </button>
+            <!-- Input Form Area -->
+            <div class="input-notebook-area">
+                <div class="textarea-wrapper">
+                    <textarea
+                        id="userInput"
+                        placeholder="e.g. Plan a cozy 6 days trip to Bali from Dhaka with private villa, floating breakfast, and beach spots under 1.5 lakhs..."
+                    ></textarea>
+                    <div class="textarea-footer">
+                        <span class="tip-badge">💡 Tip: Press Ctrl + Enter to send fast!</span>
+                        <span id="charCount" class="char-count">0 chars</span>
+                    </div>
+                </div>
 
-                <button onclick="setPrompt('Plan a 5 days Dubai trip from Dhaka with flights, hotels and sightseeing.')">
-                    Dubai Trip
-                </button>
-
-                <button onclick="setPrompt('Plan a 7 days Thailand trip from Bangladesh with budget hotels and sightseeing.')">
-                    Thailand Trip
-                </button>
-
-                <button onclick="setPrompt('Give me all country flight info.')">
-                    Global Flights
-                </button>
+                <div class="action-btn-wrapper">
+                    <button id="sendBtn" onclick="sendMessage()">
+                        <span id="btnText"><i class="fa-solid fa-paper-plane"></i> Plan Journey</span>
+                        <div id="btnLoader" class="loader-spinner hidden"></div>
+                    </button>
+                </div>
             </div>
-
         </section>
 
+        <!-- Dynamic Animated Progress Section (During Loading) -->
+        <section id="loadingSection" class="loading-section hidden">
+            <div class="loading-card">
+                <div class="walking-buddies-path">
+                    <div class="path-line"></div>
+                    <img src="/static/assets/hazel.png" alt="Hazel walking" class="walking-avatar avatar-hazel">
+                    <img src="/static/assets/barnaby.png" alt="Barnaby walking" class="walking-avatar avatar-barnaby">
+                    <div class="destination-pin">📌</div>
+                </div>
+                <div class="loading-text-container">
+                    <h3 id="loadingStepTitle">Hazel & Barnaby are working on your plan...</h3>
+                    <p id="loadingStepSub">Checking flight schedules, hotel comfort scores, and cozy sights...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Travel Results Journal Section -->
         <section id="resultSection" class="result-section hidden">
 
-            <div class="result-header">
-                <div>
-                    <h2>Your AI Travel Plan</h2>
-                    <p id="threadInfo">Thread ID: -</p>
+            <div class="result-journal-header">
+                <div class="journal-title-box">
+                    <div class="journal-stamp">🗺️ ITINERARY</div>
+                    <div>
+                        <h2>Your TravelBuddy Scrapbook</h2>
+                        <span id="threadInfo" class="thread-badge">Thread ID: -</span>
+                    </div>
                 </div>
 
-                <div class="result-actions">
-                    <button class="copy-btn" onclick="copyResult()">
-                        Copy
+                <div class="journal-actions">
+                    <button class="action-pill-btn copy-btn" onclick="copyResult()">
+                        <i class="fa-regular fa-copy"></i> Copy Text
                     </button>
-
-                    <button class="download-btn" onclick="downloadPDF()">
-                        Download PDF
+                    <button class="action-pill-btn download-btn" onclick="downloadPDF()">
+                        <i class="fa-solid fa-file-pdf"></i> Save PDF Journal
                     </button>
                 </div>
             </div>
 
-            <div id="pdfContent" class="pdf-content">
-                <h1 class="pdf-title">AI Travel Plan</h1>
-                <div id="resultBox" class="result-box"></div>
+            <!-- Journal View Tabs -->
+            <div class="journal-tabs">
+                <button class="tab-btn active" onclick="switchTab('itinerary')">
+                    📖 Itinerary & Overview
+                </button>
+                <button class="tab-btn" onclick="switchTab('checklist')">
+                    🧳 Packing Checklist
+                </button>
+                <button class="tab-btn" onclick="switchTab('notes')">
+                    📝 Barnaby's Cozy Tips
+                </button>
+            </div>
+
+            <!-- PDF Container Content -->
+            <div id="pdfContent" class="journal-body-card">
+                <div class="journal-decorations">
+                    <div class="polaroid-frame">
+                        <img src="/static/assets/duo.png" alt="TravelBuddy Memories" class="polaroid-img">
+                        <span class="polaroid-caption">Ready for Departure! ✨</span>
+                    </div>
+                </div>
+
+                <!-- Tab 1: Rendered Markdown Result -->
+                <div id="tabItinerary" class="tab-content active">
+                    <div id="resultBox" class="result-markdown-content"></div>
+                </div>
+
+                <!-- Tab 2: Dynamic Packing Checklist -->
+                <div id="tabChecklist" class="tab-content hidden">
+                    <div class="checklist-container">
+                        <h3><i class="fa-solid fa-suitcase"></i> Interactive Travel Packing List</h3>
+                        <p class="checklist-sub">Generated by Hazel for your upcoming journey. Check off items as you pack!</p>
+                        
+                        <div class="checklist-grid">
+                            <div class="checklist-group">
+                                <h4>📄 Documents & Money</h4>
+                                <ul id="listDocs">
+                                    <li><label><input type="checkbox"> Passport & Visas</label></li>
+                                    <li><label><input type="checkbox"> Flight Tickets & Hotel Bookings</label></li>
+                                    <li><label><input type="checkbox"> International Credit/Debit Cards & Currency</label></li>
+                                    <li><label><input type="checkbox"> Travel Insurance & Emergency Contacts</label></li>
+                                </ul>
+                            </div>
+
+                            <div class="checklist-group">
+                                <h4>🔌 Electronics & Gear</h4>
+                                <ul id="listTech">
+                                    <li><label><input type="checkbox"> Smartphone & Universal Power Adapter</label></li>
+                                    <li><label><input type="checkbox"> Power Bank & Charging Cables</label></li>
+                                    <li><label><input type="checkbox"> Headphones / Noise Cancelling</label></li>
+                                </ul>
+                            </div>
+
+                            <div class="checklist-group">
+                                <h4>👕 Clothing & Cozy Items</h4>
+                                <ul id="listClothes">
+                                    <li><label><input type="checkbox"> Comfortable Walking Shoes</label></li>
+                                    <li><label><input type="checkbox"> Weather-appropriate outfits & Jacket</label></li>
+                                    <li><label><input type="checkbox"> Sunglasses & Sunscreen</label></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Cozy Travel Notes -->
+                <div id="tabNotes" class="tab-content hidden">
+                    <div class="cozy-notes-card">
+                        <div class="barnaby-note-header">
+                            <img src="/static/assets/barnaby.png" alt="Barnaby" class="note-avatar">
+                            <div>
+                                <h3>Barnaby's Golden Rules for Travel 🐻</h3>
+                                <p class="handwritten-subtitle">Handwritten notes from your furry co-pilot</p>
+                            </div>
+                        </div>
+
+                        <div class="handwritten-notes-grid">
+                            <div class="sticky-note note-yellow">
+                                <h4>🍵 Cozy Cafe Rule</h4>
+                                <p>Always set aside 1 hour each afternoon to sit at a local cafe, drink tea, and people-watch!</p>
+                            </div>
+                            <div class="sticky-note note-pink">
+                                <h4>👟 Comfortable Shoes</h4>
+                                <p>Hazel insists: Never wear brand new shoes on day 1 of exploring! Comfort over style.</p>
+                            </div>
+                            <div class="sticky-note note-blue">
+                                <h4>💵 Local Cash Reserve</h4>
+                                <p>Keep a small stash of local physical currency tucked in a hidden pocket for market treats.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </section>
 
-        <section id="errorBox" class="error-box hidden"></section>
+        <!-- Error Notification Container -->
+        <section id="errorBox" class="error-card hidden">
+            <div class="error-content">
+                <span class="error-icon">⚠️</span>
+                <div id="errorText">Something went wrong. Please check your request.</div>
+            </div>
+        </section>
 
     </main>
 
-    <footer>
-        Built with FastAPI, LangGraph, Groq, PostgreSQL, Tavily and AviationStack
+    <!-- Footer -->
+    <footer class="cozy-footer">
+        <div class="footer-content">
+            <p>🐾 <strong>TravelBuddy</strong> — Crafted with care by Hazel 🐰 & Barnaby 🐻</p>
+            <p class="footer-tech">Powered by FastAPI, LangGraph, Groq, PostgreSQL & Tavily</p>
+        </div>
     </footer>
 
-    <!-- Markdown Renderer -->
+    <!-- Markdown Parser Library -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- PDF Download Library -->
+    <!-- HTML to PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    <!-- Your Custom JS -->
+    <!-- TravelBuddy App Logic -->
     <script src="/static/script.js"></script>
 
 </body>
